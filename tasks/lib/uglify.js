@@ -33,8 +33,19 @@ exports.init = function(grunt) {
 
     // Grab and parse all source files
     files.forEach(function(file){
+
       var code = grunt.file.read(file);
       totalCode += code;
+
+      // The src file name must be relative to the source map for things to work
+      // This code always places the map in the same directory as the dest file
+      var basename = path.basename(file);
+      var fileDir = path.dirname(file);
+      var destDir = path.dirname(dest); 
+      var relativePath = path.relative(destDir, fileDir);
+
+      file = relativePath + path.sep + basename;
+
       topLevel = UglifyJS.parse(code, {
         filename: file,
         toplevel: topLevel
@@ -145,6 +156,7 @@ exports.init = function(grunt) {
     if (options.sourceMap) {
 
       var destBasename = path.basename(dest);
+      var destPath     = path.dirname(dest);
       var sourceMapIn;
       if (options.sourceMapIn) {
         sourceMapIn = grunt.file.readJSON(options.sourceMapIn);
