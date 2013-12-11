@@ -32,6 +32,7 @@ module.exports = function(grunt) {
     // Process banner.
     var banner = grunt.template.process(options.banner);
     var footer = grunt.template.process(options.footer);
+    var mapInNameGenerator;
 
     // Iterate over all src-dest file pairs.
     this.files.forEach(function(f) {
@@ -48,6 +49,25 @@ module.exports = function(grunt) {
       if (src.length === 0) {
         grunt.log.warn('Destination (' + f.dest + ') not written because src files were empty.');
         return;
+      }
+
+      // function to get the name of the sourceMapIn file
+      if (typeof options.sourceMapIn === "function") {
+        if (src.length !== 1) {
+          grunt.fail.warn('Cannot generate `sourceMapIn` for multiple source files.');
+        }
+        mapInNameGenerator = options.sourceMapIn;
+      }
+
+      // dynamically create incoming sourcemap names
+      if (mapInNameGenerator) {
+        try {
+          options.sourceMapIn = mapInNameGenerator(src[0]);
+        } catch (e) {
+          var err = new Error('SourceMapInName failed.');
+          err.origError = e;
+          grunt.fail.warn(err);
+        }
       }
 
       // Minify files, warn and fail on error.

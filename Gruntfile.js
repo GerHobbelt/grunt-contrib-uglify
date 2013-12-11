@@ -145,7 +145,9 @@ module.exports = function(grunt) {
           mangle: false,
           banner: '// Hello World\n',
           sourceMap: true,
-          sourceMapIn: 'test/fixtures/src/simple2.map'
+          sourceMapIn: function() {
+            return 'test/fixtures/src/simple2.map';
+          }
         }
       },
     },

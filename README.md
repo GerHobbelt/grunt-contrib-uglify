@@ -1,4 +1,4 @@
-# grunt-contrib-uglify v0.2.7 [![Build Status](https://travis-ci.org/gruntjs/grunt-contrib-uglify.png?branch=master)](https://travis-ci.org/gruntjs/grunt-contrib-uglify)
+# grunt-contrib-uglify v0.2.8 [![Build Status](https://travis-ci.org/gruntjs/grunt-contrib-uglify.png?branch=master)](https://travis-ci.org/gruntjs/grunt-contrib-uglify)
 
 > Minify files with UglifyJS.
 
@@ -66,17 +66,10 @@ Gzipped:  20084 bytes.
 ```
 
 #### sourceMap
-Type: `String`  `Function`  
-Default: `undefined`
+Type: `Boolean`
+Default: `false`
 
-The location to output the sourcemap. If a function is provided, the uglify destination is passed as the argument
-and the return value will be used as the sourceMap name.
-
-#### sourceMapRoot
-Type: `String`  
-Default: `undefined`
-
-The location where your source files can be found. This sets the sourceRoot field in the source map.
+Whether or not to generate a source map. If `true`, a source map will be placed in the same directory as the `dest` file. It will share the same basename as the `dest` file, and have the extension `.map`.
 
 #### sourceMapIn
 Type: `String`  `Function`  
@@ -85,19 +78,6 @@ Default: `undefined`
 The location of an input source map from an earlier compilation, e.g. from CoffeeScript. If a function is provided, the
 uglify source is passed as the argument and the return value will be used as the sourceMap name. This only makes sense
 when there's one source file.
-
-#### sourceMappingURL
-Type: `String`  `Function`  
-Default: `undefined`
-
-The location of your sourcemap. Defaults to the location you use for sourceMap, override if you need finer control. Provide
-a function to dynamically generate the sourceMappingURL based off the destination.
-
-#### sourceMapPrefix
-Type: `Number`  
-Default: `undefined`
-
-The number of directories to drop from the path prefix when declaring files in the source map.
 
 ###### enclose
 Type: `Object`  
@@ -212,7 +192,7 @@ grunt.initConfig({
 
 #### Source maps
 
-Configure basic source map output by specifying a file path for the `sourceMap` option.
+Configure basic source map output by specifying `true` for the `sourceMap` option.
 
 ```js
 // Project configuration.
@@ -220,7 +200,7 @@ grunt.initConfig({
   uglify: {
     my_target: {
       options: {
-        sourceMap: 'path/to/source-map.js'
+        sourceMap: true
       },
       files: {
         'dest/output.min.js': ['src/input.js']
@@ -232,10 +212,7 @@ grunt.initConfig({
 
 #### Advanced source maps
 
-You can specify the parameters to pass to `UglifyJS.SourceMap()` which will
-allow you to configure advanced settings.
-
-Refer to the [UglifyJS SourceMap Documentation](http://lisperator.net/uglifyjs/codegen#source-map) for more information.
+You can specify previous source maps to reference maps from a previous build; i.e., CoffeeScript.
 
 ```js
 // Project configuration.
@@ -243,9 +220,8 @@ grunt.initConfig({
   uglify: {
     my_target: {
       options: {
-        sourceMap: 'path/to/source-map.js',
-        sourceMapRoot: 'http://example.com/path/to/src/', // the location to find your original source
-        sourceMapIn: 'example/coffeescript-sourcemap.js', // input sourcemap from a previous compilation
+        sourceMap: true,
+        sourceMapIn: 'example/coffeescript-source.map',
       },
       files: {
         'dest/output.min.js': ['src/input.js'],
@@ -365,6 +341,7 @@ grunt.initConfig({
 
 ## Release History
 
+ * 2013-12-11   v0.2.8   Updated source maps to be more robust
  * 2013-11-09   v0.2.7   prepending banner if sourceMap option not set, addresses
  * 2013-11-08   v0.2.6   merged 45, 53, 85 (105 by way of duping 53) Added support for banners in uglified files with sourcemaps Updated docs
  * 2013-10-28   v0.2.5   Added warning for banners when using sourcemaps
@@ -383,4 +360,4 @@ grunt.initConfig({
 
 Task submitted by ["Cowboy" Ben Alman](http://benalman.com)
 
-*This file was generated on Sun Nov 17 2013 19:58:51.*
+*This file was generated on Wed Dec 11 2013 18:40:35.*
