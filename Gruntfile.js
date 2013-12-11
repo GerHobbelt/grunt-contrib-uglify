@@ -96,34 +96,6 @@ module.exports = function(grunt) {
           mangle: false
         }
       },
-      compress_mangle_sourcemap: {
-        files: {
-          '/dev/null': ['test/fixtures/src/simple.js']
-        },
-        options: {
-          sourceMap: 'tmp/compress_mangle_sourcemap'
-        }
-      },
-      sourcemapin: {
-        files: {
-          'tmp/sourcemapin.js': ['test/fixtures/src/simple2.js']
-        },
-        options: {
-          mangle: false,
-          banner: '// Hello World\n',
-          sourceMap: 'tmp/sourcemapin',
-          sourceMapIn: 'test/fixtures/src/simple2.map',
-          sourceMapRoot: 'http://local.host/js/'
-        }
-      },
-      sourcemapurl: {
-        files: {
-          'tmp/sourcemapurl.js': ['test/fixtures/src/simple.js']
-        },
-        options: {
-          sourceMappingURL: 'js/sourcemapurl.js.map'
-        }
-      },
       comments: {
         src: 'test/fixtures/src/comments.js',
         dest: 'tmp/comments.js',
@@ -149,50 +121,33 @@ module.exports = function(grunt) {
           exportAll: true
         }
       },
-      sourcemap_prefix: {
+      sourcemap_basic: {
+        src: 'test/fixtures/src/simple.js',
+        dest: 'tmp/sourcemap_basic.js',
+        options: {
+          sourceMap: true
+        }
+      },
+      sourcemap_multiple: {
         files: {
-          '/dev/null': ['test/fixtures/src/simple.js']
+          'tmp/sourcemaps_multiple1.js': ['test/fixtures/src/simple.js'],
+          'tmp/sourcemaps_multiple2.js': ['test/fixtures/src/comments.js']
         },
         options: {
-          sourceMap: 'tmp/sourcemap_prefix',
-          sourceMapPrefix: 3
+          sourceMap: true
         }
       },
-      multiple_sourcemaps: {
+      sourcemapin: {
         files: {
-          'tmp/multiple_sourcemaps1.js': ['test/fixtures/src/simple.js'],
-          'tmp/multiple_sourcemaps2.js': ['test/fixtures/src/comments.js']
+          'tmp/sourcemapin.js': ['test/fixtures/src/simple2.js']
         },
         options: {
-          sourceMap: function(dest) {
-            return dest.replace(/\.js$/,".map");
-          },
-          sourceMappingURL: function(dest) {
-            return dest.replace(/\.js$/,".mapurl");
-          }
+          mangle: false,
+          banner: '// Hello World\n',
+          sourceMap: true,
+          sourceMapIn: 'test/fixtures/src/simple2.map'
         }
       },
-      sourcemap_in_generator_single_src: {
-        files: [{
-          expand: true,
-          flatten: true,
-          src: ['test/fixtures/expected/multiple_sourcemaps*.js'],
-          dest: 'tmp',
-          ext: '.min.js'
-        }],
-        options: {
-          sourceMap: function (dest) { return dest.replace(/\.js$/, '') + '.map'; },
-          sourceMapIn: function (src) { return src.replace(/\.js$/, '') + '.map'; }
-        }
-      },
-      sourcemap_in_generator_multi_src: {
-        src: 'test/fixtures/expected/multiple_sourcemaps*.js',
-        dest: 'tmp/multiple_sourcemaps_all.min.js',
-        options: {
-          sourceMap: function (dest) { return dest.replace(/\.js$/, '') + '.map'; },
-          sourceMapIn: function (src) { return src.replace(/\.js$/, '') + '.map'; }
-        }
-      }
     },
 
     // Unit tests.
@@ -240,17 +195,13 @@ module.exports = function(grunt) {
     'uglify:compress_mangle_except',
     'uglify:compress_mangle_beautify',
     'uglify:multifile',
-    'uglify:compress_mangle_sourcemap',
-    'uglify:sourcemapin',
-    'uglify:sourcemapurl',
     'uglify:comments',
     'uglify:wrap',
     'uglify:exportAll',
-    'uglify:sourcemap_prefix',
-    'uglify:multiple_sourcemaps',
     'uglify:enclose',
-    'uglify:sourcemap_in_generator_single_src',
-    'expectFail:uglify:sourcemap_in_generator_multi_src', // fail case
+    'uglify:sourcemap_basic',
+    'uglify:sourcemap_multiple',
+    'uglify:sourcemapin',
     'nodeunit'
   ]);
 
