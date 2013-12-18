@@ -21,12 +21,21 @@ exports.contrib_uglify = {
       'exportAll.js',
       'sourcemap_basic.js',
       'sourcemap_basic.map',
+      'sourcemap_customDir.js',
+      'sourcemap_customName.js',
+      'sourcemap_functionName.js',
+      'sourcemap_functionName.js.fn.map',
+      'deep/directory/location/source_map.js.map',
       'sourcemapin.js',
       'sourcemapin.map',
       'sourcemaps_multiple1.js',
       'sourcemaps_multiple1.map',
       'sourcemaps_multiple2.js',
-      'sourcemaps_multiple2.map'
+      'sourcemaps_multiple2.map',
+      'sourcemaps_multiple1_fnName.js',
+      'sourcemaps_multiple1_fnName.js.fn.map',
+      'sourcemaps_multiple2_fnName.js',
+      'sourcemaps_multiple2_fnName.js.fn.map'
     ];
 
     test.expect(files.length);

@@ -38,11 +38,10 @@ exports.init = function(grunt) {
       totalCode += code;
 
       // The src file name must be relative to the source map for things to work
-      // This code always places the map in the same directory as the dest file
       var basename = path.basename(file);
       var fileDir = path.dirname(file);
-      var destDir = path.dirname(dest); 
-      var relativePath = path.relative(destDir, fileDir);
+      var sourceMapDir = path.dirname(options.sourceMapName); 
+      var relativePath = path.relative(sourceMapDir, fileDir);
 
       file = relativePath + path.sep + basename;
 
@@ -100,10 +99,7 @@ exports.init = function(grunt) {
 
     // Add the source map reference to the end of the file
     if (options.sourceMap) {
-      var destExt = path.extname(dest);
-      var destBasename = path.basename(dest, destExt);
-      var sourceMapLocation = destBasename + ".map";
-      min += "\n//# sourceMappingURL="+sourceMapLocation;
+      min += "\n//# sourceMappingURL="+options.destToSourceMap;
     }
 
     var result = {

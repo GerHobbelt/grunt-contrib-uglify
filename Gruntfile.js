@@ -128,6 +128,29 @@ module.exports = function(grunt) {
           sourceMap: true
         }
       },
+      sourcemap_customName: {
+        src: 'test/fixtures/src/simple.js',
+        dest: 'tmp/sourcemap_customName.js',
+        options: {
+          sourceMap: 'tmp/source_map_custom_name'
+        }
+      },
+      sourcemap_customDir: {
+        src: 'test/fixtures/src/simple.js',
+        dest: 'tmp/sourcemap_customDir.js',
+        options: {
+          sourceMap: 'tmp/deep/directory/location/source_map.js.map'
+        }
+      },
+      sourcemap_functionName: {
+        src: 'test/fixtures/src/simple.js',
+        dest: 'tmp/sourcemap_functionName.js',
+        options: {
+          sourceMap: function( dest ) {
+            return dest + ".fn.map";
+          }
+        }
+      },
       sourcemap_multiple: {
         files: {
           'tmp/sourcemaps_multiple1.js': ['test/fixtures/src/simple.js'],
@@ -135,6 +158,17 @@ module.exports = function(grunt) {
         },
         options: {
           sourceMap: true
+        }
+      },
+      sourcemap_multipleFunctionNames: {
+        files: {
+          'tmp/sourcemaps_multiple1_fnName.js': ['test/fixtures/src/simple.js'],
+          'tmp/sourcemaps_multiple2_fnName.js': ['test/fixtures/src/comments.js']
+        },
+        options: {
+          sourceMap: function( dest ) {
+            return dest+'.fn.map';
+          }
         }
       },
       sourcemapin: {
@@ -202,7 +236,11 @@ module.exports = function(grunt) {
     'uglify:exportAll',
     'uglify:enclose',
     'uglify:sourcemap_basic',
+    'uglify:sourcemap_customName',
+    'uglify:sourcemap_customDir',
+    'uglify:sourcemap_functionName',
     'uglify:sourcemap_multiple',
+    'uglify:sourcemap_multipleFunctionNames',
     'uglify:sourcemapin',
     'nodeunit'
   ]);
