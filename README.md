@@ -66,38 +66,12 @@ Gzipped:  20084 bytes.
 ```
 
 #### sourceMap
-Type: `String`  `Function`  
-Default: `undefined`
+Type: `Boolean` `String`  `Function` 
+Default: `false`
 
-The location to output the sourcemap. If a function is provided, the uglify destination is passed as the argument
-and the return value will be used as the sourceMap name.
+If `true`, a source map will be generated in the same directory as the `dest` file. It will have the same basename as the `dest` file, but with a `.map` extension.
 
-#### sourceMapRoot
-Type: `String`  
-Default: `undefined`
-
-The location where your source files can be found. This sets the sourceRoot field in the source map.
-
-#### sourceMapIn
-Type: `String`  `Function`  
-Default: `undefined`
-
-The location of an input source map from an earlier compilation, e.g. from CoffeeScript. If a function is provided, the
-uglify source is passed as the argument and the return value will be used as the sourceMap name. This only makes sense
-when there's one source file.
-
-#### sourceMappingURL
-Type: `String`  `Function`  
-Default: `undefined`
-
-The location of your sourcemap. Defaults to the location you use for sourceMap, override if you need finer control. Provide
-a function to dynamically generate the sourceMappingURL based off the destination.
-
-#### sourceMapPrefix
-Type: `Number`  
-Default: `undefined`
-
-The number of directories to drop from the path prefix when declaring files in the source map.
+To customize the name or location of the source map, pass a string to indicate where to write the source map to. If a function is provided, the uglify destination is passed as the argument and the return value will be used as the file name.
 
 ###### enclose
 Type: `Object`  
