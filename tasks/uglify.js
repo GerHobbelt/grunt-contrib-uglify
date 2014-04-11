@@ -113,9 +113,20 @@ module.exports = function(grunt) {
       // Calculate the path from the dest file to the sourcemap for the
       // sourceMappingURL reference
       if (options.sourceMap) {
-        var destToSourceMapPath = relativePath(f.dest, options.generatedSourceMapName);
-        var sourceMapBasename = path.basename(options.generatedSourceMapName);
-        options.destToSourceMap = destToSourceMapPath + sourceMapBasename;
+        if (options.sourceMapLocation) {
+          if (!options.sourceMapRoot) {
+            grunt.fail.warn('Cannot use absolute location without setting sourceMapRoot');
+          }
+          if (options.sourceMapRoot.charAt(options.sourceMapRoot.length - 1) !== path.sep) {
+            options.sourceMapRoot = options.sourceMapRoot + path.sep;
+          }
+          var relativeSourceMapPath = options.generatedSourceMapName.substr(options.sourceMapRoot.length, options.generatedSourceMapName.length);
+          options.destToSourceMap = options.sourceMapLocation + relativeSourceMapPath;
+        } else {
+          var destToSourceMapPath = relativePath(f.dest, options.generatedSourceMapName);
+          var sourceMapBasename = path.basename(options.generatedSourceMapName);
+          options.destToSourceMap = destToSourceMapPath + sourceMapBasename;
+        }
       }
 
       // Minify files, warn and fail on error.
